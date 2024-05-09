@@ -15,9 +15,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { createItem } from "@/actions/items";
+import { createItem, deleteItem, updateItem } from "@/actions/items";
 import { useToast } from "@/components/ui/use-toast";
 import { Label } from "@/components/ui/label";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   amount: z.coerce.number().min(1),
@@ -25,23 +26,57 @@ const formSchema = z.object({
 });
 type FormData = z.infer<typeof formSchema>;
 
-export default function ItemForm() {
+type Props =
+  | {
+      defaultValues: FormData;
+      updateMode: true;
+      id: number;
+    }
+  | {
+      defaultValues?: undefined;
+      updateMode?: undefined;
+      id?: undefined;
+    };
+
+export default function ItemForm({ defaultValues, updateMode, id }: Props) {
+  const router = useRouter();
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      amount: 0,
-    },
+    defaultValues: updateMode
+      ? defaultValues
+      : {
+          name: "",
+          amount: 0,
+        },
   });
   const { toast } = useToast();
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    createItem(data)
+    if (updateMode) {
+      return updateItem(id, data)
+        .then(() => {
+          toast({
+            title: "更新しました。",
+            description: "アイテム一覧をご確認ください。",
+          });
+          form.reset();
+        })
+        .catch(() => {
+          toast({
+            variant: "destructive",
+            title: "エラーが発生しました",
+            description: "管理者にお問い合わせください。",
+          });
+        });
+    }
+
+    return createItem(data)
       .then(() => {
         toast({
           title: "投稿しました",
           description: "アイテム一覧をご確認ください。",
         });
+        form.reset();
       })
       .catch(() => {
         toast({
@@ -50,8 +85,6 @@ export default function ItemForm() {
           description: "管理者にお問い合わせください。",
         });
       });
-
-    form.reset();
   };
 
   return (
@@ -96,18 +129,45 @@ export default function ItemForm() {
               </FormItem>
             )}
           />
-
+          {/* 
           <div className="grid w-full max-w-sm items-center gap-1.5">
             <Label htmlFor="picture">商品画像</Label>
             <Input id="picture" type="file" />
-          </div>
+          </div> */}
 
-          <Button
-            disabled={form.formState.isSubmitted || !form.formState.isValid}
-            type="submit"
-          >
-            商品追加
-          </Button>
+          <div className="flex gap-3">
+            <Button
+              disabled={form.formState.isSubmitted || !form.formState.isValid}
+              type="submit"
+            >
+              {updateMode ? "更新" : "追加"}
+            </Button>
+            {updateMode && (
+              <Button
+                variant="outline"
+                type="button"
+                onClick={() =>
+                  deleteItem(id)
+                    .then(() => {
+                      toast({
+                        title: "削除しました",
+                        description: "アイテム一覧をご確認ください。",
+                      });
+                      router.push("/items");
+                    })
+                    .catch(() =>
+                      toast({
+                        variant: "destructive",
+                        title: "エラーが発生しました",
+                        description: "管理者にお問い合わせください。",
+                      })
+                    )
+                }
+              >
+                削除
+              </Button>
+            )}
+          </div>
         </form>
       </Form>
     </div>

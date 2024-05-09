@@ -25,7 +25,10 @@ export const createItem = async (
   }
 };
 
-export const updateItem = async (formData: TablesUpdate<"items">) => {
+export const updateItem = async (
+  id: number,
+  formData: TablesUpdate<"items">
+) => {
   const supabase = createClient();
 
   const user = await currentUser();
@@ -33,14 +36,14 @@ export const updateItem = async (formData: TablesUpdate<"items">) => {
     throw new Error("ログインしていません");
   }
 
-  const { error } = await supabase.from("items").update(formData);
+  const { error } = await supabase.from("items").update(formData).eq("id", id);
 
   if (error) {
     throw new Error(error.message);
   }
 };
 
-export const deleteItem = async (id: string) => {
+export const deleteItem = async (id: number) => {
   const supabase = createClient();
 
   const user = await currentUser();
