@@ -1,36 +1,21 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## 概要
 
-## Getting Started
+このプロジェクトは、Next.js をベースにした Web アプリケーション開発を目的としています。主に商品の管理機能を提供し、Supabase をバックエンドとして利用しています。ユーザーは商品の追加、編集、削除ができ、商品情報の検索機能も備えています。また、ユーザー認証機能を通じて、ログインしているユーザーのみが商品情報を管理できるようになっています。フロントエンドでは、React Hook Form と Zod を使用してフォームのバリデーションを行い、Tailwind CSS でスタイリングをしています。
 
-First, run the development server:
+## 特徴
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- 特徴 1
+- 特徴 2
+- 特徴 3
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 始め方
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+このセクションでは、プロジェクトのセットアップ方法について説明します。
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### 必要条件
 
-## Learn More
+- 条件 1
+- 条件 2
+- 条件 3
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### インストール
